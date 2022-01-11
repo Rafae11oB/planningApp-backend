@@ -1,0 +1,10 @@
+# Just rename this file to 'application.yml' and fill empty fields
+server:
+  port: # Port for your application
+
+# PostgreSQL settings
+spring:
+  datasource:
+    url: # URL to your db
+    username: # DB username
+    password: # DB user's password
