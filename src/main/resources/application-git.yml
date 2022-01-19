@@ -1,7 +1,7 @@
 # Just rename this file to 'application.yml' and fill empty fields
 server:
   port: # Port for your application
-
+dev-mode: # (true/false) Developer mode for some functionality
 # PostgreSQL settings
 spring:
   datasource:
