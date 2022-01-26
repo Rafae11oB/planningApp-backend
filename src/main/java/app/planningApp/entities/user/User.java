@@ -3,6 +3,7 @@ package app.planningApp.entities.user;
 import app.planningApp.dto.UserInfo;
 import app.planningApp.entities.BaseEntity;
 import app.planningApp.exceptions.UserFriendlyException;
+import app.planningApp.helpers.Converter;
 import app.planningApp.helpers.Validator;
 import lombok.*;
 
@@ -46,13 +47,18 @@ public class User extends BaseEntity {
     }
 
     public void setName(String name) throws UserFriendlyException {
-        String nameToCheck = name.trim();
-        for(String namePart: nameToCheck.split(" ")){
-            if(!Validator.containsOnlyLetters(namePart)){
+        String[] namePartsToToCheck = name.trim().split(" ");
+        StringBuilder nameInCorrectFormat = new StringBuilder("");
+        for(int i = 0; i<namePartsToToCheck.length; i++){
+            if(!Validator.containsOnlyLetters(namePartsToToCheck[i])){
                 throw new UserFriendlyException("Name have to contain only letters");
             }
+            nameInCorrectFormat.append(Converter.adjustCaseForName(namePartsToToCheck[i]));
+            if(i < namePartsToToCheck.length + 1){
+                nameInCorrectFormat.append(" ");
+            }
         }
-        this.name = nameToCheck;
+        this.name = nameInCorrectFormat.toString();
     }
 
     public void setPassword(String password) throws UserFriendlyException {
