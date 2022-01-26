@@ -5,6 +5,7 @@ import app.planningApp.entities.BaseEntity;
 import app.planningApp.exceptions.UserFriendlyException;
 import app.planningApp.helpers.Converter;
 import app.planningApp.helpers.Validator;
+import app.planningApp.security.PasswordEncoder;
 import lombok.*;
 
 import javax.persistence.*;
@@ -65,7 +66,7 @@ public class User extends BaseEntity {
         if(!Validator.isPasswordValid(password)){
             throw new UserFriendlyException("Password does not meet requirements");
         }
-        this.password = password.trim();
+        this.password = PasswordEncoder.bCryptPasswordEncoder().encode(password.trim());
     }
 
 }
