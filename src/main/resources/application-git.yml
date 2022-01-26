@@ -2,9 +2,13 @@
 server:
   port: # Port for your application
 dev-mode: # (true/false) Developer mode for some functionality
+jwt:
+  secret: # Secret word for encoding (string)
+  expirationTimeInSeconds: # Expiration time in seconds for token (number)
+  headerFiledName: # Header field name, where the token is stored (string)
 # PostgreSQL settings
 spring:
   datasource:
-    url: # URL to your db
+    url: # URL to your db (string)
     username: # DB username
-    password: # DB user's password
+    password: # DB user's password (number)
