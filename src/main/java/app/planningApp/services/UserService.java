@@ -4,10 +4,10 @@ import app.planningApp.dto.UserInfo;
 import app.planningApp.entities.user.User;
 import app.planningApp.exceptions.UserFriendlyException;
 import app.planningApp.repositories.UserRepository;
+import app.planningApp.security.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.ValidationException;
 import java.util.Optional;
 
 @Service
@@ -20,7 +20,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> getUser(String email){
+    public Optional<User> getUserByEmail(String email){
         return userRepository.findByEmail(email);
     }
 
@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public boolean checkPassword(String password, User user){
-        return password.equals(user.getPassword());
+        return PasswordEncoder.bCryptPasswordEncoder().matches(password, user.getPassword());
     }
 
     public void create(UserInfo userInfo) throws UserFriendlyException {
@@ -38,12 +38,5 @@ public class UserService {
         }
         User user = new User(userInfo);
         userRepository.save(user);
-    }
-
-    public void login(String email, String password) throws UserFriendlyException {
-        User user = getUser(email).orElseThrow(() -> new UserFriendlyException("User with this email does not exist!"));
-        if(!checkPassword(password, user)) {
-            throw new UserFriendlyException("Wrong password!");
-        }
     }
 }
