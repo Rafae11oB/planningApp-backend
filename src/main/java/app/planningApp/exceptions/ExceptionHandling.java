@@ -1,5 +1,6 @@
 package app.planningApp.exceptions;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,11 +12,16 @@ import java.util.Map;
 
 @ControllerAdvice
 @Slf4j
-public class CustomizedExceptionHandling extends ResponseEntityExceptionHandler {
+public class ExceptionHandling extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserFriendlyException.class)
     public ResponseEntity<Map<String, String>> handleUserFriendlyExceptions(UserFriendlyException exception){
         return ResponseEntity.badRequest().body(Map.of("msg", exception.getMessage()));
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<Map<String, String>>handleExpiredJwtException(ExpiredJwtException exception){
+        return ResponseEntity.badRequest().body(Map.of("msg", "Token expired"));
     }
 
     @ExceptionHandler(Exception.class)
